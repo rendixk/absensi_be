@@ -1,3 +1,0 @@
-"start:dev": "nodemon --watch src --ext ts --exec \"tsgo && tsx src/index.ts\""
-
-"start:dev": "chokidar \"src/**/*.ts\" -c \"tsgo && tsx src/index.ts\" --initial"
