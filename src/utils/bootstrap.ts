@@ -5,7 +5,7 @@ export function bootstrap() {
     const PORT = 3000
 
     console.log(chalk.cyan(`[App] ${process.pid} - ${new Date().toLocaleString()}`))
-    console.log(chalk.yellowBright("[App] Starting Express server..."))
+    console.log(chalk.cyanBright("[App] Starting Express server..."))
 
     const server = app.listen(PORT, () => {
         console.log(chalk.greenBright(`[App] Server is running on http://localhost:${PORT}`))
