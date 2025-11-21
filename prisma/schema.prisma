@@ -6,9 +6,157 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
+}
+
+enum Status_Kehadiran {
+  hadir
+  sakit
+  izin
+  alfa
+}
+
+enum Role {
+  wali_kelas
+  guru
+  admin
+  guru_bk
+}
+
+enum QR_Code_Type {
+  clock_in
+  clock_out
+}
+
+model admin {
+  id       Int     @id @default(autoincrement())
+  username String
+  email    String  @unique
+  password String
+  role     Role    @default(admin)
+  kelas    kelas[]
+  guru     guru[]
+  siswa    siswa[]
+}
+
+model wali_kelas {
+  id             Int    @id @default(autoincrement())
+  username       String
+  nip            Int    @unique
+  password       String
+  mengajar_kelas String
+  role           Role   @default(wali_kelas)
+
+  //relasi
+  kelas kelas?
+}
+
+model kelas {
+  id            Int    @id @default(autoincrement())
+  nama_kelas    String
+  wali_kelas_id Int    @unique
+  guru_id       Int?   @unique
+  admin_id      Int
+
+  //relasi
+  siswa         siswa?
+  rekap_absensi rekap_absensi[]
+  qr_token      qr_token?
+  wali_kelas    wali_kelas      @relation(fields: [wali_kelas_id], references: [id])
+  guru          guru?           @relation(fields: [guru_id], references: [id])
+  admin         admin           @relation(fields: [admin_id], references: [id])
+}
+
+model guru {
+  id       Int    @id @default(autoincrement())
+  username String
+  nip      Int    @unique
+  mapel    String
+  password String
+  admin_id Int
+  role     Role   @default(guru)
+
+  //relasi
+  kelas kelas?
+  admin admin  @relation(fields: [admin_id], references: [id])
+}
+
+model siswa {
+  id           Int               @id @default(autoincrement())
+  nama_lengkap String
+  password     String
+  nis          Int               @unique
+  nama_kelas   String
+  nomor_wali   Int
+  status       Status_Kehadiran?
+  kelas_id     Int               @unique
+  admin_id     Int
+
+  //relasi
+  absensi       absensi[]
+  rekap_absensi rekap_absensi[]
+  kelas         kelas           @relation(fields: [kelas_id], references: [id])
+  admin         admin           @relation(fields: [admin_id], references: [id])
+}
+
+model absensi {
+  id       Int              @id @default(autoincrement())
+  tanggal  DateTime         @default(now())
+  siswa_id Int
+  status   Status_Kehadiran @default(hadir)
+
+  //relasi
+  surat_peringatan surat_peringatan?
+  siswa            siswa             @relation(fields: [siswa_id], references: [id])
+}
+
+model rekap_absensi {
+  id         Int @id @default(autoincrement())
+  kelas_id   Int
+  siswa_id   Int
+  guru_bk_id Int
+
+  //relasi
+  kelas   kelas   @relation(fields: [kelas_id], references: [id])
+  siswa   siswa   @relation(fields: [siswa_id], references: [id])
+  guru_bk guru_bk @relation(fields: [guru_bk_id], references: [id])
+}
+
+model guru_bk {
+  id       Int    @id @default(autoincrement())
+  username String
+  nip      Int    @unique
+  mapel    String
+  password String
+  role     Role   @default(guru_bk)
+
+  //relasi
+  rekap_absensi rekap_absensi[]
+}
+
+model surat_peringatan {
+  id               Int    @id @default(autoincrement())
+  total_alpha      Int
+  rekap_absensi_id Int    @unique
+  file             String
+  absensi_id       Int    @unique
+
+  //relasi
+  absensi absensi @relation(fields: [absensi_id], references: [id])
+}
+
+model qr_token {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  created_at DateTime @default(now())
+  expired_at DateTime
+  used       Boolean  @default(false)
+  kelas_id   Int      @unique
+
+  //relasi
+  qrtype QR_Code_Type?
+  kelas  kelas         @relation(fields: [kelas_id], references: [id])
 }
