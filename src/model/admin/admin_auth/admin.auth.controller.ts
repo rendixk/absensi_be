@@ -1,19 +1,19 @@
 import type { Request, Response, NextFunction } from "express"
-import { auth_login_service, auth_register_service } from "./admin.auth.service"
-// import * as AuthService from "./admin.auth.service"
+import { admin_auth_login_service, admin_auth_register_service } from "./admin.auth.service"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
 
-export const auth_register_controller = async (req: Request, res: Response, next: NextFunction) => {
+export const admin_auth_register_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log(chalk.blueBright("Debugging: Request body received for Admin registration:"), req.body)
         console.log(chalk.blueBright("Registerting Admin..."))
-        const { username, email, password } = req.body
-        if(!username || !email || !password) {
+        const { username, password } = req.body
+        if(!username|| !password) {
             console.log(chalk.red("All fields are required for registration."))
             throw new ErrorOutput("All fields are required for registration.", 400)
         }
-        const register_result = await auth_register_service(email, { username, email, password })
-        console.log(chalk.greenBright("Admin registered successfully."))
+        const register_result = await admin_auth_register_service({ username, password })
+        console.log(chalk.greenBright("Admin registered successfully."), register_result)
         res.status(201).json({
             success: true,
             message: "Admin registered successfully.",
@@ -25,17 +25,18 @@ export const auth_register_controller = async (req: Request, res: Response, next
     }
 }
 
-export const auth_login_controller = async (req: Request, res: Response, next: NextFunction) => {
+export const admin_auth_login_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("Debugging: Request body received for login:", req.body)
+        console.log(chalk.blueBright("Debugging: Request body received for login:"), req.body)
         console.log(chalk.blueBright("Logging in Admin..."))
-        const { email, password } = req.body
-        if(!email || !password) {
-            throw new ErrorOutput("Email and password are required for login.", 400)
+        const { username, password } = req.body
+        if(!username || !password) {
+            console.log(chalk.redBright("username and password are require"))
+            throw new ErrorOutput("username and password are required for login.", 400)
         }
 
-        const login_result = await auth_login_service(email, password)
-        console.log(chalk.greenBright("Admin logged in successfully."))
+        const login_result = await admin_auth_login_service(username, password)
+        console.log(chalk.greenBright("Admin logged in successfully."), login_result)
         res.status(200).json({
             success: true,
             message: "Admin logged in successfully.",
