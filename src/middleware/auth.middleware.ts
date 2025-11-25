@@ -6,7 +6,7 @@ import { verify_token } from "../config/auth_policy/jwt"
 export interface AuthRequest extends Request {
     user?: {
         id: number
-        email: string
+        role: string
     }
 }
 
@@ -22,14 +22,15 @@ export const auth_token_middleware = (req: AuthRequest, res: Response, next: Nex
     }
 
     try {
-        const decoded = verify_token(token) as { id: number; email: string }
+        const decoded = verify_token(token) as { id: number, role: string }
         req.user = {
             id: decoded.id,
-            email: decoded.email
+            role: decoded.role
         }
         next()
         
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(chalk.redBright("Access Denied: Invalid or expired token"))
         return next(new ErrorOutput("Access Denied: Invalid or expired token", 401))
     }
