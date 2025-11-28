@@ -1,6 +1,6 @@
 export interface create_guru_interface {
     username: string
-    nip: number
+    nip: string
     mapel: string
     password: string
 }

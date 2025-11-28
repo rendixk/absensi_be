@@ -36,7 +36,7 @@ export const admin_auth_login_service = async (username: string, raw_password: s
         throw new ErrorOutput("Incorrect password.", 401)
     }
 
-    const token = generate_token({ id: admin_account.id, username: admin_account.username })
+    const token = generate_token({ id: admin_account.id, username: admin_account.username, role: admin_account.role })
     const { password, ...adminWithoutPass } = admin_account
     return {
         admin: adminWithoutPass,

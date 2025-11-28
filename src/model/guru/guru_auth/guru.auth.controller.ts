@@ -5,7 +5,7 @@ import chalk from "chalk"
 
 export const guru_auth_register_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("Debugging: Request body received for register:", req.body)
+        console.log(chalk.blueBright("Debugging: Request body received for register:"), req.body)
         console.log(chalk.blueBright("Registerting Guru..."))
         const { username, nip, mapel, password } = req.body
         if(!username || !nip || !mapel || !password) {
@@ -28,7 +28,7 @@ export const guru_auth_register_controller = async (req: Request, res: Response,
 
 export const guru_auth_login_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("Debugging: Request body received for login:", req.body)
+        console.log(chalk.blueBright("Debugging: Request body received for login:"), req.body)
         console.log(chalk.blueBright("Logging in Guru..."))
         const { username, password } = req.body
         if(!username || !password) {

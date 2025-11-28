@@ -5,7 +5,7 @@ import chalk from "chalk"
 
 export const guru_bk_auth_register_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("Debugging: Request body received for Guru BK registration:", req.body)
+        console.log(chalk.blueBright("Debugging: Request body received for Guru BK registration:"), req.body)
         console.log(chalk.blueBright("Registerting Guru BK..."))
         const { username, nip, password } = req.body
         if(!username || !nip || !password) {

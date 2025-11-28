@@ -37,7 +37,7 @@ export const guru_auth_login_service = async (username: string, raw_password: st
         throw new ErrorOutput("Incorrect password.", 401)
     }
 
-    const token = generate_token({ id: guru_account.id, username: guru_account.username })
+    const token = generate_token({ id: guru_account.id, username: guru_account.username, role: guru_account.role })
     const { password, ...guruWithoutPass } = guru_account
     return {
         guru: guruWithoutPass,
