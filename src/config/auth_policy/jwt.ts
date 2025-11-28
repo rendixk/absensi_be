@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken'
-import * as dotenv from "dotenv"
 import ErrorOutput from '../../utils/errorOutput';
 
-dotenv.config()
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET
 if(!JWT_SECRET_KEY){

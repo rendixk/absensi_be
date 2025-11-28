@@ -1,4 +1,5 @@
 import chalk from "chalk"
+import "dotenv/config"
 import { app } from "../app"
 
 export function bootstrap() {
