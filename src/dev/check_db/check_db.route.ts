@@ -1,0 +1,20 @@
+import { Router } from "express"
+import { 
+    check_admin_model_controller,
+    check_guru_bk_model_controller,
+    check_guru_model_controller,
+    check_kelas_model_controller,
+    check_siswa_model_controller,
+    check_wali_kelas_model_controller
+} from "./check_db.controller"
+
+const router = Router()
+
+router.get('/admin', check_admin_model_controller)
+router.get('/guru', check_guru_model_controller)
+router.get('/guru-bk', check_guru_bk_model_controller)
+router.get('/kelas', check_kelas_model_controller)
+router.get('/siswa', check_siswa_model_controller)
+router.get('/wali-kelas', check_wali_kelas_model_controller)
+
+export default router
