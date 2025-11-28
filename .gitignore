@@ -2,3 +2,9 @@ node_modules
 # Keep environment variables out of version control
 .env
 /src/generated
+.vscode
+# /src/dev
+identity.txt
+note.txt
+token.txt
+todo_model_list.md
