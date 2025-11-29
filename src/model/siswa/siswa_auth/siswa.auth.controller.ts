@@ -14,7 +14,7 @@ export const siswa_register_controller = async (req: Request, res: Response, nex
         }
 
         const register_result = await siswa_register_service(req.body, nama_kelas)
-        console.log(chalk.greenBright("Siswa logged in successful:"), register_result)
+        console.log(chalk.greenBright("Siswa registered successful:"), register_result)
         res.status(201).json({
             success: true,
             message: "Siswa registered successfully.",
