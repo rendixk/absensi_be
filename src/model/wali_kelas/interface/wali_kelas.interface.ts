@@ -3,5 +3,4 @@ export interface create_wali_kelas_interface {
     nip: string
     mapel: string
     password: string
-    guru_id?: number
 }

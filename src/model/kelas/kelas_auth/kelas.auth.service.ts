@@ -17,7 +17,7 @@ export const kelas_auth_register_service = async (data: create_kelas_interface) 
         nama_kelas: data.nama_kelas,
         password: await hash_password(data.password),
         wali_kelas_id: data.wali_kelas_id,
-        guru_id: data.wali_kelas_id
+        guru_id: null
     })
 
     const { password, ...kelas_without_pass } = result

@@ -33,6 +33,12 @@ enum QR_Code_Type {
   clock_out
 }
 
+enum Tingkat_SP {
+  SP1
+  SP2
+  SP3
+}
+
 model admin {
   id       Int    @id @default(autoincrement())
   username String @unique
@@ -46,12 +52,10 @@ model wali_kelas {
   nip            String
   mapel          String
   password       String
-  guru_id        Int     @unique
   role           Role    @default(wali_kelas)
 
   //relasi
   kelas kelas?
-  guru  guru   @relation(fields: [guru_id], references: [id])
 }
 
 model kelas {
@@ -63,10 +67,11 @@ model kelas {
 
   //relasi
   siswa         siswa[]
+  absensi       absensi[]
   rekap_absensi rekap_absensi[]
   qr_token      qr_token?
 
-  wali_kelas wali_kelas? @relation(fields: [wali_kelas_id], references: [id])
+  wali_kelas wali_kelas @relation(fields: [wali_kelas_id], references: [id])
   guru       guru?       @relation(fields: [guru_id], references: [id])
 }
 
@@ -80,7 +85,6 @@ model guru {
 
   //relasi
   kelas      kelas?
-  wali_kelas wali_kelas?
 }
 
 model siswa {
@@ -95,6 +99,7 @@ model siswa {
   //relasi
   absensi       absensi[]
   rekap_absensi rekap_absensi[]
+  surat_peringatan  surat_peringatan[]
   kelas         kelas           @relation(fields: [kelas_id], references: [id])
 }
 
@@ -102,13 +107,14 @@ model absensi {
   id               Int              @id @default(autoincrement())
   tanggal          DateTime         @default(now())
   siswa_id         Int
-  status           Status_Kehadiran @default(hadir)
-  rekap_absensi_id Int?
+  kelas_id         Int
+  status           Status_Kehadiran
+  clock_in         DateTime?
+  clock_out        DateTime?
 
   //relasi
-  surat_peringatan surat_peringatan?
   siswa            siswa             @relation(fields: [siswa_id], references: [id])
-  rekap            rekap_absensi?    @relation(fields: [rekap_absensi_id], references: [id])
+  kelas            kelas             @relation(fields: [kelas_id], references: [id])
 }
 
 model rekap_absensi {
@@ -125,10 +131,10 @@ model rekap_absensi {
   total_alpha Int @default(0)
 
   //relasi
+  surat_peringatan  surat_peringatan[]
   siswa   siswa     @relation(fields: [siswa_id], references: [id])
   kelas   kelas     @relation(fields: [kelas_id], references: [id])
   guru_bk guru_bk   @relation(fields: [guru_bk_id], references: [id])
-  absensi absensi[]
 }
 
 model guru_bk {
@@ -143,12 +149,15 @@ model guru_bk {
 
 model surat_peringatan {
   id          Int    @id @default(autoincrement())
-  total_alpha Int
+  siswa_id    Int
+  rekap_absensi_id Int
+  tingkat_sp Tingkat_SP @default(SP1)
+  tanggal_terbit  DateTime @default(now())
   file        String
-  absensi_id  Int    @unique
 
   //relasi
-  absensi absensi @relation(fields: [absensi_id], references: [id])
+  rekap_absensi rekap_absensi @relation(fields: [rekap_absensi_id], references: [id])
+  siswa siswa @relation(fields: [siswa_id], references: [id])
 }
 
 model qr_token {

@@ -1,7 +1,6 @@
 import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
 import { find_wali_kelas_username_repo, create_wali_kelas_account } from "../wali_kelas.repo"
-import { create_guru_account_repo } from "../../guru/guru.repo"
 import type { create_wali_kelas_interface } from "../interface/wali_kelas.interface"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
@@ -15,19 +14,11 @@ export const wali_kelas_register_service = async (data: create_wali_kelas_interf
 
     const hashed_password = await hash_password(data.password)
 
-    const new_guru = await create_guru_account_repo({
-        username: data.username,
-        mapel: data.mapel,
-        nip: data.nip,
-        password: hashed_password,
-    })
-
     const result = await create_wali_kelas_account({
         username: data.username,
         nip: data.nip,
         mapel: data.mapel,
         password: hashed_password,
-        guru_id: new_guru.id
     })
 
     const { password, ...wali_kelas_without_pass } = result
@@ -49,7 +40,7 @@ export const wali_kelas_login_service = async (username: string, raw_password: s
         throw new ErrorOutput("Incorrect password.", 401)
     }
 
-    const token = generate_token({ id: wali_kelas_account.guru_id, username: wali_kelas_account.username, role: wali_kelas_account.role })
+    const token = generate_token({ id: wali_kelas_account.id, username: wali_kelas_account.username, role: wali_kelas_account.role })
     const { password, ...wali_kelas_without_pass } = wali_kelas_account
     return {
         wali_kelas: wali_kelas_without_pass,
