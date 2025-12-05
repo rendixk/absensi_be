@@ -47,7 +47,13 @@ export const siswa_login_service = async (username: string, raw_password: string
         throw new ErrorOutput("Incorrect password.", 401)
     }
 
-    const token = generate_token({ id: siswa_account.id, username: siswa_account.username })
+    const token = generate_token(
+        { 
+            id: siswa_account.id, 
+            username: siswa_account.username,
+            kelas_id: siswa_account.kelas_id
+        }
+    )
     const { password, ...siswa_without_pass } = siswa_account
     return {
         siswa: siswa_without_pass,
