@@ -17,4 +17,6 @@ export const error_middleware = async (error: Error, req: Request, res: Response
         statusCode,
         message,
     })
+
+    next(error)
 }
