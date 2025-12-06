@@ -30,8 +30,8 @@ export const auth_token_middleware = (req: AuthRequest, res: Response, next: Nex
         next()
         
     } 
-    catch (error) {
-        console.log(chalk.redBright("Access Denied: Invalid or expired token"))
+    catch (error: any) {
+        console.log(chalk.redBright("Access Denied: Invalid or expired token"), error)
         return next(new ErrorOutput("Access Denied: Invalid or expired token", 401))
     }
 }
