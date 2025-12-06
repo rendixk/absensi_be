@@ -27,8 +27,23 @@ export const find_nama_kelas_repo = (nama_kelas: string) => {
     })
 }
 
+export const find_kelas_id = (kelas_id: number) => {
+    return prisma.kelas.findUnique({
+        where: { id: kelas_id }
+    })
+}
+
 export const create_kelas_repo = (data: create_kelas_interface) => {
     return prisma.kelas.create({
         data: data
+    })
+}
+
+export const remove_guru_repo = (kelas_id: number) => {
+    return prisma.kelas.update({
+        where: { id: kelas_id },
+        data: {
+            guru_id: null
+        }
     })
 }

@@ -1,6 +1,11 @@
 import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
-import { find_nama_kelas_repo, create_kelas_repo } from "../kelas.repo"
+import { 
+    find_nama_kelas_repo, 
+    create_kelas_repo,
+    find_kelas_id,
+    remove_guru_repo
+} from "../kelas.repo"
 import { prisma } from "../../../config/prisma"
 import type { create_kelas_interface } from "../interface/kelas_interface"
 import ErrorOutput from "../../../utils/errorOutput"
@@ -51,5 +56,26 @@ export const kelas_auth_login_service = async (nama_kelas: string, raw_password:
     return {
         kelas: kelasWithoutPass,
         token: token
+    }
+}
+
+export const guru_logout_kelas_service = async (kelas_id: number, guru_id: number) => {
+    const data_kelas = await find_kelas_id(kelas_id)
+    if(!data_kelas) {
+        console.log(chalk.redBright("Kelas not found."))
+        throw new ErrorOutput("Kelas not found.", 404)
+    }
+
+    if(data_kelas.guru_id !== guru_id) {
+        console.log(chalk.redBright(`Access Denied: Guru ID ${guru_id} is not the active Guru in kelas ${kelas_id}`))
+        throw new ErrorOutput("Access Denied. You are not the active Guru for this class.", 403)
+    }
+
+    await remove_guru_repo(kelas_id)
+
+    console.log(chalk.redBright(`Guru with ID ${guru_id} successfuly loggoet out from kelas id: ${kelas_id}`))
+
+    return { 
+        message: `Successfully logged out from Kelas ${data_kelas.nama_kelas}. The class is now without an active Guru.` 
     }
 }

@@ -1,5 +1,9 @@
 import type { Request, Response, NextFunction } from "express"
-import { kelas_auth_login_service, kelas_auth_register_service } from "./kelas.auth.service"
+import { 
+    kelas_auth_login_service, 
+    kelas_auth_register_service,
+    guru_logout_kelas_service
+} from "./kelas.auth.service"
 import type { AuthRequest } from "../../../middleware/auth.middleware"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
@@ -63,4 +67,29 @@ export const kelas_auth_login_controller = async (req: AuthRequest, res: Respons
     catch (error) {
         next(error)
     }
+}
+
+export const guru_logout_kelas_controller = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const guru_id = req.user?.id
+    const { kelas_id } = req.body
+
+    if(!guru_id || !kelas_id) {
+        console.log(chalk.redBright("guru_id token and kelas_id are required for logout"), req.body)
+        return next(new ErrorOutput("guru_id token and kelas_id are required for logout", 400))
+    }
+
+    const valid_kelas_id = parseInt(kelas_id)
+    if (isNaN(valid_kelas_id)) {
+        console.log(chalk.redBright("Invalid kelas_id format. It must be a number."), req.body)
+        throw new ErrorOutput("Invalid kelas_id format.", 400)
+    }
+
+    const result = await guru_logout_kelas_service(valid_kelas_id, guru_id)
+
+    console.log(chalk.greenBright("Guru logged out from Kelas successfully."), result)
+    res.status(200).json({
+        success: true,
+        message: "Guru logged out from Kelas successfully.",
+        data: result
+    })
 }
