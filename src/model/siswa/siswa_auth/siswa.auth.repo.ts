@@ -1,5 +1,5 @@
-import { prisma } from "../../config/prisma"
-import type { create_siswa_repo_input } from "./interface/siswa_interface"
+import { prisma } from "../../../config/prisma"
+import type { create_siswa_repo_input } from "../interface/siswa_interface"
 
 export const find_siswa_username_repo = (username: string) => {
     return prisma.siswa.findUnique({
