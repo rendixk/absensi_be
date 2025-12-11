@@ -2,11 +2,12 @@ import type { Request, Response, NextFunction } from "express"
 import ErrorOutput from "../utils/errorOutput"
 import chalk from "chalk"
 import { verify_token } from "../config/auth_policy/jwt"
+import { Role } from "../generated"
 
 export interface AuthRequest extends Request {
     user?: {
         id: number
-        role: string
+        role: Role
     }
 }
 
@@ -22,7 +23,7 @@ export const auth_token_middleware = (req: AuthRequest, res: Response, next: Nex
     }
 
     try {
-        const decoded = verify_token(token) as { id: number, role: string }
+        const decoded = verify_token(token) as { id: number, role: Role }
         req.user = {
             id: decoded.id,
             role: decoded.role
@@ -34,4 +35,12 @@ export const auth_token_middleware = (req: AuthRequest, res: Response, next: Nex
         console.log(chalk.redBright("Access Denied: Invalid or expired token"), error)
         return next(new ErrorOutput("Access Denied: Invalid or expired token", 401))
     }
+}
+
+export const auth_guru_bk_middleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+    if(!req.user || req.user.role !== "guru_bk") {
+        console.log(chalk.redBright("Access Denied: Only Guru BK is authorized."))
+        return next(new ErrorOutput("Access Denied: Only Guru BK is authorized to view/manage this report.", 403))
+    }
+    next()
 }
