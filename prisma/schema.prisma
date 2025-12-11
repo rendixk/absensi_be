@@ -135,6 +135,8 @@ model rekap_absensi {
   siswa   siswa     @relation(fields: [siswa_id], references: [id])
   kelas   kelas     @relation(fields: [kelas_id], references: [id])
   guru_bk guru_bk   @relation(fields: [guru_bk_id], references: [id])
+
+  @@unique([siswa_id, kelas_id, bulan, tahun])
 }
 
 model guru_bk {
