@@ -1,5 +1,5 @@
 import { prisma } from "../../../config/prisma"
-import type { create_guru_bk_interface } from "../interface/guru_bk.interface"
+import type { create_guru_bk_interface } from "./interface/guru_bk.interface"
 
 // for login
 export const find_guru_bk_username_repo = (username: string) => {
