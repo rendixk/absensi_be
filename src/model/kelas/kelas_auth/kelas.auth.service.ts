@@ -5,7 +5,7 @@ import {
     create_kelas_repo,
     find_kelas_id,
     remove_guru_repo
-} from "../kelas.repo"
+} from "./kelas.auth.repo"
 import { prisma } from "../../../config/prisma"
 import type { create_kelas_interface } from "../interface/kelas_interface"
 import ErrorOutput from "../../../utils/errorOutput"

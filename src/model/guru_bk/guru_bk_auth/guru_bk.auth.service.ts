@@ -1,6 +1,6 @@
 import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
-import { find_guru_bk_username_repo, create_guru_bk_account_repo } from "../guru_bk.repo"
+import { find_guru_bk_username_repo, create_guru_bk_account_repo } from "./guru_bk.auth.repo"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
 

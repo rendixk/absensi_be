@@ -1,6 +1,6 @@
 import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
-import { find_wali_kelas_username_repo, create_wali_kelas_account } from "../wali_kelas.repo"
+import { find_wali_kelas_username_repo, create_wali_kelas_account } from "./wali_kelas.auth.repo"
 import type { create_wali_kelas_interface } from "../interface/wali_kelas.interface"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
