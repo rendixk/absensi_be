@@ -1,5 +1,5 @@
 import { prisma } from "../../../config/prisma"
-import type { create_wali_kelas_interface } from "../interface/wali_kelas.interface"
+import type { create_wali_kelas_interface } from "./interface/wali_kelas.interface"
 
 //for login
 export const find_wali_kelas_username_repo = (username: string) => {
