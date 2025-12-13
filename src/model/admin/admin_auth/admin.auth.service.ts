@@ -1,7 +1,7 @@
 import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
 import { find_admin_username_repo, create_admin_account_repo } from "./admin.auth.repo"
-import type { create_admin_interface } from "../interface/admin_interface"
+import type { create_admin_interface } from "./interface/admin_interface"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
 

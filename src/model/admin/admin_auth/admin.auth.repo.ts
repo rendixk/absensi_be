@@ -1,5 +1,5 @@
 import { prisma } from "../../../config/prisma"
-import type { create_admin_interface } from "../interface/admin_interface"
+import type { create_admin_interface } from "./interface/admin_interface"
 
 //for login
 export const find_admin_username_repo = (username: string) => {
