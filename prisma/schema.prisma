@@ -19,6 +19,7 @@ enum Status_Kehadiran {
   sakit
   izin
   alfa
+  missing
 }
 
 enum Role {
