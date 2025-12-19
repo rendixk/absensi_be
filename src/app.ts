@@ -12,6 +12,7 @@ import wali_kelas_route from "./model/wali_kelas/wali_kelas_auth/wali_kelas.auth
 import wali_kelas_edit_absensi from "./model/wali_kelas/wali-kelas-absensi-manage/wali-kelas-edit-status.route"
 import guru_bk_route from './model/guru_bk/guru_bk_auth/guru_bk.auth.route'
 import kelas_route from './model/kelas/kelas_auth/kelas.auth.route'
+import kelas_detail_route from "./model/kelas/kelas-detail/kelas-detail.route"
 import siswa_route from './model/siswa/siswa_auth/siswa.auth.route'
 import siswa_absensi_route from './model/siswa/siswa-absensi/siswa-absensi.route' // for siswa scan QR code
 import qr_generate_token_route from './model/qr-token/qr-token.route'
@@ -58,6 +59,7 @@ app.use('/wali-kelas/absensi', wali_kelas_edit_absensi)
 
 //for kelas
 app.use('/kelas/auth', kelas_route)
+app.use('kelas', kelas_detail_route)
 app.use('/kelas/absensi', qr_generate_token_route) // for generate QR token
 
 //for siswa

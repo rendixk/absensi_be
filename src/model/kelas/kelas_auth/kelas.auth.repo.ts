@@ -39,11 +39,21 @@ export const create_kelas_repo = (data: create_kelas_interface) => {
     })
 }
 
-export const remove_guru_repo = (kelas_id: number) => {
+export const guru_logout_repo = (kelas_id: number) => {
     return prisma.kelas.update({
         where: { id: kelas_id },
         data: {
             guru_id: null
+        }
+    })
+}
+
+export const edit_nama_kelas_repo = (nama_kelas: string) => {
+    return prisma.kelas.update({
+        where: { nama_kelas },
+        data: { 
+            nama_kelas,
+            updated_at: new Date()
         }
     })
 }

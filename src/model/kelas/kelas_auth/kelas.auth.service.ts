@@ -4,7 +4,8 @@ import {
     find_nama_kelas_repo, 
     create_kelas_repo,
     find_kelas_id,
-    remove_guru_repo
+    guru_logout_repo,
+    edit_nama_kelas_repo,
 } from "./kelas.auth.repo"
 import { prisma } from "../../../config/prisma"
 import type { create_kelas_interface } from "../interface/kelas_interface"
@@ -66,16 +67,34 @@ export const guru_logout_kelas_service = async (kelas_id: number, guru_id: numbe
         throw new ErrorOutput("Kelas not found.", 404)
     }
 
+    if (!data_kelas.guru_id) {
+        console.log(chalk.redBright("This class currently has no active Guru."))
+        throw new ErrorOutput("This class currently has no active Guru.", 400)
+    }
+
+    if(!data_kelas.wali_kelas_id)
+
     if(data_kelas.guru_id !== guru_id) {
         console.log(chalk.redBright(`Access Denied: Guru ID ${guru_id} is not the active Guru in kelas ${kelas_id}`))
         throw new ErrorOutput("Access Denied. You are not the active Guru for this class.", 403)
     }
 
-    await remove_guru_repo(kelas_id)
+    await guru_logout_repo(kelas_id)
 
     console.log(chalk.redBright(`Guru with ID ${guru_id} successfuly loggoet out from kelas id: ${kelas_id}`))
 
     return { 
         message: `Successfully logged out from Kelas ${data_kelas.nama_kelas}. The class is now without an active Guru.` 
     }
+}
+
+export const edit_kelas_nama_service = async (nama_kelas: string) => {
+    const kelas_exist = await find_nama_kelas_repo(nama_kelas)
+    if(kelas_exist) {
+        console.log(chalk.redBright("Kelas with this name already exists."))
+        throw new ErrorOutput("Kelas with this name already exists.", 409)
+    }
+
+    const updated_kelas = await edit_nama_kelas_repo(nama_kelas)
+    return updated_kelas
 }
