@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express"
-import { 
+import {
     kelas_auth_login_service,
     kelas_auth_register_service,
     guru_logout_kelas_service,

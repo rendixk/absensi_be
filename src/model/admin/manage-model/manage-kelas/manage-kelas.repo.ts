@@ -12,4 +12,17 @@ export class ManageKelasRepository {
             where: { id },
         })
     }
+
+    public async assignKelas(kelas_id: number, wali_kelas_id: number) {
+        return prisma.kelas.update({
+            where: { id: kelas_id },
+            data: { wali_kelas_id }
+        })
+    }
+
+    public async findKelasByWaliKelasId(wali_kelas_id: number) {
+        return prisma.kelas.findFirst({
+            where: { wali_kelas_id: wali_kelas_id }
+        })
+    }
 }

@@ -17,14 +17,14 @@ export class ManageGuruController {
                 throw new ErrorOutput("Unauthorized", 401)
             }
             if(req.user.role !== "admin") {
-                console.log(chalk.redBright("Forbidden: Only admin users can access all Wali Kelas data."))
-                throw new ErrorOutput("Forbidden: Only admin users can access all Wali Kelas data.", 403)
+                console.log(chalk.redBright("Forbidden: Only admin users can access all Guru data."))
+                throw new ErrorOutput("Forbidden: Only admin users can access all Guru data.", 403)
             }
 
             const guru = await this.manageGuruService.fetchAllGuru()
-            console.log(chalk.greenBright("[Backend Controller] Authorized admin user. Received request to get all Wali Kelas data."), guru)
+            console.log(chalk.greenBright("[Backend Controller] Authorized admin user. Received request to get all Guru data."), guru)
             res.status(200).json({
-                message: "Received request to get all Wali Kelas data.",
+                message: "Received request to get all Guru data.",
                 data: guru 
             })
         } 
@@ -41,16 +41,40 @@ export class ManageGuruController {
             }
 
             if(req.user.role !== "admin") {
-                console.log(chalk.redBright("Forbidden: Only admin users can access all Wali Kelas data."))
+                console.log(chalk.redBright("Forbidden: Only admin users can access Guru data."))
                 throw new ErrorOutput("Forbidden: Only admin users can access all Wali Kelas data.", 403)
             }
 
             const id = Number(req.params.id)
             const guru_id = await this.manageGuruService.fetchGuruById(id)
-            console.log(chalk.greenBright("[Backend Controller] Authorized admin user. Received request to get Wali Kelas data by ID:"), guru_id)
+            console.log(chalk.greenBright("[Backend Controller] Authorized admin user. Received request to get Guru data by ID:"), guru_id)
             res.status(200).json({ 
                 message: `Received request to get Wali Kelas data by ID: ${id}`,
                 data: guru_id 
+            })
+        } 
+        catch (error) {
+            next(error)
+        }
+    }
+    public deleteGuru = async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            if(!req.user) {
+                console.log(chalk.redBright("Unauthorized: No user information found in request."))
+                throw new ErrorOutput("Unauthorized", 401)
+            }
+
+            if(req.user.role !== "admin") {
+                console.log(chalk.redBright("Forbidden: Only admin users can access all Guru data."))
+                throw new ErrorOutput("Forbidden: Only admin users can access all Guru data.", 403)
+            }
+
+            const id = Number(req.params.id)
+            const guru_id = await this.manageGuruService.deleteGuru(id)
+            console.log(chalk.greenBright("[Backend Controller] Authorized admin user. Received request to get Guru data by ID:"), guru_id)
+            res.status(200).json({
+                success: true,
+                message: `Received request to delete Guru with ID: ${id}`
             })
         } 
         catch (error) {

@@ -27,11 +27,11 @@ export const guru_bk_auth_register_controller = async (req: Request, res: Respon
 
 export const guru_bk_auth_login_controller = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("Debugging: Request body received for Guru BK registration:", req.body)
+        console.log(chalk.blueBright("Debugging: Request body received for Guru BK registration:"), req.body)
         console.log(chalk.blueBright("Logging in Guru BK..."))
         const { username, password } = req.body
         if(!username || !password) {
-            console.log(chalk.redBright("username and password are required"))
+            console.log(chalk.redBright("username and password are required"), req.body)
             throw new ErrorOutput("Email and Password are required for login.", 400)
         }
 

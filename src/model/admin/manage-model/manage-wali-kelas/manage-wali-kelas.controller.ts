@@ -57,4 +57,29 @@ export class ManageWaliKelasController {
             next(error)
         }
     }
+
+    public deleteWaliKelas = async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            if (!req.user || req.user.role !== "admin") {
+                console.log(chalk.redBright("Forbidden: Non-admin tried to delete Wali Kelas."))
+                throw new ErrorOutput("Forbidden: Only admin can delete users.", 403)
+            }
+
+            const id = Number(req.params.id)
+            if (isNaN(id)) { 
+                console.log(chalk.redBright("Invalid ID format:"), req.params)
+                throw new ErrorOutput("Invalid ID format", 400) 
+            }
+
+            const result = await this.manageWaliKelasService.deleteWaliKelasById(id)
+
+            res.status(200).json({
+                success: true,
+                message: `Successfully deleted Wali Kelas: ${result.username}`,
+                data: result
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }

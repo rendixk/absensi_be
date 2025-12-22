@@ -16,18 +16,22 @@ const siswaController = new ManageSiswaController()
 //wali-kelas
 router.get('/wali-kelas', auth_token_middleware, waliKelasController.getAllWaliKelas)
 router.get('/wali-kelas/:id', auth_token_middleware, waliKelasController.getWaliKelasById)
+router.delete('/wali-kelas/:id', auth_token_middleware, waliKelasController.deleteWaliKelas)
 
 //guru-bk
 router.get('/guru-bk', auth_token_middleware, guruBkController.getAllGuruBK)
 router.get('/guru-bk/:id', auth_token_middleware, guruBkController.getGuruBKById)
+router.delete('/delete/guru-bk/:id', auth_token_middleware, guruBkController.deleteGuruBK)
 
 //guru
 router.get('/guru', auth_token_middleware, guruController.getAllGuru)
 router.get('/guru/:id', auth_token_middleware, guruController.getGuruId)
+router.delete('guru/:id', auth_token_middleware, guruController.deleteGuru)
 
 //kelas
 router.get('/kelas', auth_token_middleware, kelasController.getAllKelas)
 router.get('/kelas/:id', auth_token_middleware, kelasController.getKelasById)
+router.patch('/kelas/assign-wali-kelas', auth_token_middleware, kelasController.assignWaliKelas)
 
 //siswa
 router.get('/siswa', auth_token_middleware, siswaController.getAllSiswa)

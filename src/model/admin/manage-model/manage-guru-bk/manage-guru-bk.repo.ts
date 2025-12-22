@@ -10,4 +10,9 @@ export class ManageGuruBKRepository {
             where: { id },
         })
     }
+    public async delete(id: number) {
+        return prisma.guru_bk.delete({
+            where: { id }
+        })
+    }
 }

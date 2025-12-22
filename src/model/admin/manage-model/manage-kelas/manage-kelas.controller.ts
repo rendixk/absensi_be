@@ -18,7 +18,7 @@ export class ManageKelasController {
             }
 
             if(req.user.role !== "admin") {
-                console.log(chalk.redBright("Forbidden: Only admin users can access all Wali Kelas data."))
+                console.log(chalk.redBright("Forbidden: Only admin users can access all Kelas data."))
                 throw new ErrorOutput("Forbidden: Only admin users can access all Wali Kelas data.", 403)
             }
 
@@ -43,7 +43,7 @@ export class ManageKelasController {
             }
 
             if(req.user.role !== "admin") {
-                console.log(chalk.redBright("Forbidden: Only admin users can access all Wali Kelas data."))
+                console.log(chalk.redBright("Forbidden: Only admin users can access Wali Kelas data."))
                 throw new ErrorOutput("Forbidden: Only admin users can access all Wali Kelas data.", 403)
             }
 
@@ -57,6 +57,26 @@ export class ManageKelasController {
             })
         } 
         catch (error) {
+            next(error)
+        }
+    }
+
+    public assignWaliKelas = async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            if (req.user?.role !== "admin") throw new ErrorOutput("Forbidden", 403)
+            
+            const { kelas_id, wali_kelas_id } = req.body
+            
+            const updated_kelas = await this.manageKelasController.assignWaliKelasToKelas(
+                Number(kelas_id), 
+                Number(wali_kelas_id)
+            )
+    
+            res.status(200).json({
+                message: `Successfully assigned Wali Kelas ${wali_kelas_id} to Kelas ${kelas_id}.`,
+                data: updated_kelas 
+            })
+        } catch (error) {
             next(error)
         }
     }

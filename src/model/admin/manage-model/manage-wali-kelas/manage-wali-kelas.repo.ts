@@ -1,7 +1,7 @@
 import { prisma } from "../../../../config/prisma"
 
 export class ManageWaliKelasRepository {
-    async findMany() {
+    public async findMany() {
         return prisma.wali_kelas.findMany({
             include: {
                 kelas: {
@@ -14,7 +14,7 @@ export class ManageWaliKelasRepository {
         })
     }
 
-    async findUnique(id: number) {
+    public async findUnique(id: number) {
         return prisma.wali_kelas.findUnique({
             where: { id },
             include: {
@@ -25,6 +25,12 @@ export class ManageWaliKelasRepository {
                     }
                 }
             },
+        })
+    }
+
+    public async delete(id: number) {
+        return prisma.wali_kelas.delete({
+            where: { id }
         })
     }
 }

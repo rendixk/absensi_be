@@ -26,4 +26,16 @@ export class ManageGuruBKService {
         console.log(chalk.greenBright(`[Backend Service] Successfully fetched Guru BK data with ID: ${id}`), guru_bk_id)
         return guru_bk_id
     }
+
+    public async deleteGuruBk (id: number) {
+        console.log(chalk.cyanBright(`[Backend Service] Deleting guru bk with ID: ${id}`))
+        const guru_bk = await this.manageGuruBK.delete(id)
+        if(!guru_bk) {
+            console.log(chalk.redBright(`[Backend Service] Guru BK data with ID: ${id} not found.`))
+            throw new ErrorOutput(`Guru BK data with ID: ${id} not found.`, 404)
+        }
+
+        console.log(chalk.greenBright(`[Backend Service] Successfully deleted Guru BK with id: ${id}`), guru_bk)
+        return guru_bk
+    }
 }

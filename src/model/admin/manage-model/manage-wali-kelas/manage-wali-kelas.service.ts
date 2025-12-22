@@ -26,4 +26,19 @@ export class ManageWaliKelasService {
         console.log(chalk.greenBright(`[Backend Service] Successfully fetched Wali Kelas data with ID: ${id}`), wali_kelas_id)
         return wali_kelas_id
     }
+
+    public async deleteWaliKelasById(id: number) {
+        console.log(chalk.cyanBright(`[Backend Service] Attempting to delete Wali Kelas with ID: ${id}`))
+        
+        const existing = await this.manageWaliKelas.findUnique(id)
+        if (!existing) {
+            console.log(chalk.redBright(`[Backend Service] Wali Kelas ID: ${id} not found.`))
+            throw new ErrorOutput(`Wali Kelas with ID: ${id} not found.`, 404)
+        }
+
+        const deleted = await this.manageWaliKelas.delete(id)
+        
+        console.log(chalk.greenBright(`[Backend Service] Successfully deleted Wali Kelas: ${deleted.username}`))
+        return deleted
+    }
 }
