@@ -2,7 +2,10 @@ import { prisma } from "../../../../config/prisma"
 
 export class ManageGuruRepository {
     public async findMany() {
-        return prisma.guru.findMany()
+        const data_guru = await prisma.guru.findMany()
+        const total_guru = await prisma.guru.count()
+
+        return { data_guru, total_guru }
     }
 
     public async findUnique(id: number) {

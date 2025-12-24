@@ -2,7 +2,7 @@ import { prisma } from "../../../../config/prisma"
 
 export class ManageWaliKelasRepository {
     public async findMany() {
-        return prisma.wali_kelas.findMany({
+        const data_wali_kelas = await prisma.wali_kelas.findMany({
             include: {
                 kelas: {
                     select: {
@@ -11,7 +11,11 @@ export class ManageWaliKelasRepository {
                     }
                 }
             },
+            omit: { password: true }
         })
+        const total_wali_kelas = await prisma.wali_kelas.count()
+        
+        return { data_wali_kelas, total_wali_kelas }
     }
 
     public async findUnique(id: number) {
@@ -25,6 +29,7 @@ export class ManageWaliKelasRepository {
                     }
                 }
             },
+            omit: { password: true }
         })
     }
 
