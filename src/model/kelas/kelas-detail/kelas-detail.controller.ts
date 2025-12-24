@@ -17,7 +17,7 @@ export const detail_kelas_controller = async (req: AuthRequest, res: Response, n
         console.log(chalk.greenBright("Detail Kelas fetched successfully."), detail_kelas)
         res.status(200).json({
             success: true,
-            message: "Kelas updated successfully.",
+            message: "detail kelas fetched successfully.",
             data: detail_kelas
         })
     } 
