@@ -1,29 +1,72 @@
 import { prisma } from "../../config/prisma"
 
-export const check_admin_model_service = () => {
-    return prisma.admin.findMany()
-}
+// export const check_admin_model_service = () => {
+//     return prisma.admin.findMany()
+// }
 
-export const check_guru_model_service = () => {
-    return prisma.guru.findMany()
-}
+// export const check_guru_model_service = () => {
+//     return prisma.guru.findMany()
+// }
 
-export const check_guru_bk_model_service = () => {
-    return prisma.guru_bk.findMany()
-}
+// export const check_guru_bk_model_service = () => {
+//     return prisma.guru_bk.findMany()
+// }
 
-export const check_wali_kelas_model_service = () => {
-    return prisma.wali_kelas.findMany()
-}
+// export const check_wali_kelas_model_service = () => {
+//     return prisma.wali_kelas.findMany()
+// }
 
-export const check_siswa_model_service = () => {
-    return prisma.siswa.findMany()
-}
+// export const check_siswa_model_service = () => {
+//     return prisma.siswa.findMany()
+// }
 
-export const check_kelas_model_service = () => {
-    return prisma.kelas.findMany({
-        include: {
-            wali_kelas: true
-        }
-    })
+// export const check_kelas_model_service = () => {
+//     return prisma.kelas.findMany({
+//         include: {
+//             wali_kelas: true
+//         }
+//     })
+// }
+
+export class CheckDBService {
+    public async Guru() {
+        const data_guru = await prisma.guru.findMany({
+            omit: { password: true }
+        })
+        const total_guru = await prisma.guru.count()
+
+        return { data_guru, total_guru }
+    }
+    public async GuruBK() {
+        const data_guru_bk = await prisma.guru_bk.findMany({
+            omit: { password: true }
+        })
+        const total_guru_bk = await prisma.guru_bk.count()
+
+        return { data_guru_bk, total_guru_bk }
+    }
+    public async WaliKelas() {
+        const data_wali_kelas = await prisma.wali_kelas.findMany({
+            omit: { password: true }
+        })
+        const total_guru = await prisma.wali_kelas.count()
+
+        return { data_wali_kelas, total_guru }
+    }
+    public async Kelas() {
+        const data_kelas = await prisma.kelas.findMany({
+            omit: { password: true }
+        })
+        const total_kelas = await prisma.kelas.count()
+
+        return { data_kelas, total_kelas }
+    }
+    public async Siswa() {
+        const data_siswa = await prisma.siswa.findMany({
+            omit: { password: true }
+        })
+        const total_siswa = await prisma.siswa.count()
+
+        return { data_siswa, total_siswa }
+    }
 }
