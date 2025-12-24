@@ -37,5 +37,5 @@ export const start_rekap_absensi_scheduler = () => {
         timezone: 'Asia/Jakarta'
     })
 
-    console.log(chalk.blueBright('⏱️ Monthly Rekap Scheduler Activated: Running on 1st day of month at 02:00 AM WIB.'))
+    console.log(chalk.blueBright('Monthly Rekap Scheduler Activated: Running on 1st day of month at 02:00 AM WIB.'))
 }
