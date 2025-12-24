@@ -59,7 +59,7 @@ app.use('/wali-kelas/absensi', wali_kelas_edit_absensi)
 
 //for kelas
 app.use('/kelas/auth', kelas_route)
-app.use('kelas', kelas_detail_route)
+app.use('/kelas', kelas_detail_route)
 app.use('/kelas/absensi', qr_generate_token_route) // for generate QR token
 
 //for siswa
