@@ -41,8 +41,8 @@ export class ManageWaliKelasController {
             }
 
             if(req.user.role !== "admin") {
-                console.log(chalk.redBright("Forbidden: Only admin users can access Wali Kelas data by ID."))
-                throw new ErrorOutput("Forbidden: Only admin users can access Wali Kelas data by ID.", 403)
+                console.log(chalk.redBright("Forbidden: Only admin can access Wali Kelas data by ID."))
+                throw new ErrorOutput("Forbidden: Only admin can access Wali Kelas data by ID.", 403)
             }
 
             const id = Number(req.params.id)
