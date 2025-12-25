@@ -22,7 +22,7 @@ const checkDbController = new CheckDBController()
 router.get("/wali-kelas", checkDbController.WaliKelas)
 router.get("/guru", checkDbController.Guru)
 router.get("/guru-bk", checkDbController.GuruBK)
-router.get("/wali-kelas", checkDbController.Kelas)
-router.get("/wali-kelas", checkDbController.Siswa)
+router.get("/kelas", checkDbController.Kelas)
+router.get("/siswa", checkDbController.Siswa)
 
 export default router
