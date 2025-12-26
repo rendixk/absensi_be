@@ -2,7 +2,7 @@ import { generate_token } from "../../../config/auth_policy/jwt"
 import { hash_password, compare_password } from "../../../config/auth_policy/bcrypt"
 import { find_siswa_username_repo, create_siswa_account_repo } from "./siswa.auth.repo"
 import { find_nama_kelas_repo } from '../../kelas/kelas_auth/kelas.auth.repo'
-import type { create_siswa_repo_input } from "../interface/siswa_interface"
+import type { create_siswa_repo_input } from "./interface/siswa_interface"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
 
