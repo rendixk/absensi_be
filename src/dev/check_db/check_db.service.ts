@@ -7,7 +7,7 @@ export class CheckDBService {
         })
         const total_guru = await prisma.guru.count()
 
-        return { data_guru, total_guru }
+        return { total_guru, data_guru }
     }
     public async GuruBK() {
         const data_guru_bk = await prisma.guru_bk.findMany({
@@ -15,23 +15,24 @@ export class CheckDBService {
         })
         const total_guru_bk = await prisma.guru_bk.count()
 
-        return { data_guru_bk, total_guru_bk }
+        return { total_guru_bk, data_guru_bk }
     }
     public async WaliKelas() {
         const data_wali_kelas = await prisma.wali_kelas.findMany({
             omit: { password: true }
         })
-        const total_guru = await prisma.wali_kelas.count()
+        const total_wali_kelas = await prisma.wali_kelas.count()
 
-        return { data_wali_kelas, total_guru }
+        return { total_wali_kelas, data_wali_kelas }
     }
     public async Kelas() {
         const data_kelas = await prisma.kelas.findMany({
-            omit: { password: true }
+            omit: { password: true },
+            include: { wali_kelas: { omit: { password: true } }, siswa: { omit: { password: true } } }
         })
         const total_kelas = await prisma.kelas.count()
 
-        return { data_kelas, total_kelas }
+        return { total_kelas, data_kelas }
     }
     public async Siswa() {
         const data_siswa = await prisma.siswa.findMany({
@@ -39,6 +40,6 @@ export class CheckDBService {
         })
         const total_siswa = await prisma.siswa.count()
 
-        return { data_siswa, total_siswa }
+        return { total_siswa, data_siswa }
     }
 }
