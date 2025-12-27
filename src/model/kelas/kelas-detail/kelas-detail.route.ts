@@ -4,6 +4,6 @@ import { auth_token_middleware } from "../../../middleware/auth.middleware"
 
 const router = Router()
 
-router.get('/detail/:id', auth_token_middleware, detail_kelas_controller)
+router.get('/detail', auth_token_middleware, detail_kelas_controller)
 
 export default router
