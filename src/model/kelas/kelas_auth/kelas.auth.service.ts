@@ -45,6 +45,12 @@ export const kelas_auth_login_service = async (nama_kelas: string, raw_password:
         throw new ErrorOutput("Incorrect password.", 401)
     }
 
+    const guruExists = await prisma.guru.findUnique({ where: { id: current_guru_id } });
+    if (!guruExists) {
+        console.log(chalk.redBright("[Backend Service] Invalid Guru ID. You must be a registered Guru to login to a class."))
+        throw new ErrorOutput("Invalid Guru ID. You must be a registered Guru to login to a class.", 403);
+    }
+
     await prisma.kelas.update({
         where: { id: kelas_account.id },
         data: {
