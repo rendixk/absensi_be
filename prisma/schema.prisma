@@ -27,6 +27,7 @@ enum Role {
   guru
   admin
   guru_bk
+  siswa
 }
 
 enum QR_Code_Type {
@@ -91,6 +92,8 @@ model siswa {
   password     String
   nis          String
   nomor_wali   String
+  avatar       String?
+  role         Role   @default(siswa)
   kelas_id     Int
 
   //relasi

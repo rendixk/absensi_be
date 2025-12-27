@@ -2,11 +2,12 @@ import type { Request, Response, NextFunction } from "express"
 import ErrorOutput from "../utils/errorOutput"
 import chalk from "chalk"
 import { verify_token } from "../config/auth_policy/jwt"
+import type { Role } from "../generated"
 
 export interface SiswaAuthRequest extends Request{
     user?: {
         id: number,
-        role: 'siswa',
+        role: Role,
         kelas_id: number
     }
 }
@@ -23,7 +24,7 @@ export const siswa_auth_middleware = (req: SiswaAuthRequest, res: Response, next
     }
 
     try {
-        const decoded = verify_token(token) as { id: number, role: 'siswa', kelas_id: number }
+        const decoded = verify_token(token) as { id: number, role: Role, kelas_id: number }
 
         req.user = {
             id: decoded.id,
