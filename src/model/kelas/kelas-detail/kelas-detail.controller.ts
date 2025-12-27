@@ -12,8 +12,8 @@ export const detail_kelas_controller = async (req: AuthRequest, res: Response, n
         }
 
         console.log(chalk.cyanBright("Debugging: Request body received for get detail kelas..."))
-        const id = Number(req.user.id)
-        const detail_kelas = await detail_kelas_service(id)
+        const user_id = Number(req.user.id)
+        const detail_kelas = await detail_kelas_service(user_id)
         console.log(chalk.greenBright("Detail Kelas fetched successfully."), detail_kelas)
         res.status(200).json({
             success: true,
