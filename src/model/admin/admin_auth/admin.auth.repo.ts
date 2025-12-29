@@ -3,8 +3,12 @@ import type { create_admin_interface } from "./interface/admin_interface"
 
 //for login
 export const find_admin_username_repo = (username: string) => {
+    const strict_name = username.trim().toLowerCase()
+
     return prisma.admin.findUnique({
-        where: { username }
+        where: { 
+            username: strict_name
+         }
     })
 }
 
