@@ -30,6 +30,6 @@ export const cleanup_forgotten_clock_out = async () => {
         data:{ status: Status_Kehadiran.missing }
     })
 
-    console.log(chalk.blueBright(`[Cron Job Success] Updated ${update_result.count} records to ALFA (Forgotten Clock-Out).`))
+    console.log(chalk.blueBright(`[Cron Job Success] Updated ${update_result.count} records to Missing (Forgotten Clock-Out).`))
     return { count: update_result.count }
 }
