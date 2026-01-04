@@ -36,11 +36,3 @@ export const auth_token_middleware = (req: AuthRequest, res: Response, next: Nex
         return next(new ErrorOutput("Access Denied: Invalid or expired token", 401))
     }
 }
-
-export const auth_guru_bk_middleware = (req: AuthRequest, res: Response, next: NextFunction) => {
-    if(!req.user || req.user.role !== "guru_bk") {
-        console.log(chalk.redBright("Access Denied: Only Guru BK is authorized."))
-        return next(new ErrorOutput("Access Denied: Only Guru BK is authorized to view/manage this report.", 403))
-    }
-    next()
-}
