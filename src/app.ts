@@ -20,7 +20,7 @@ import siswa_route from './model/siswa/siswa_auth/siswa.auth.route'
 import siswa_absensi_route from './model/siswa/siswa-absensi/siswa-absensi.route' // for siswa scan QR code
 import siswa_profile_route from './model/siswa/siswa-profile/siswa-profile.route'
 import qr_generate_token_route from './model/qr-token/qr-token.route'
-import guru_bk_rekap_absensi_route from './model/guru_bk/guru-bk-rekap-absensi/guru-bk-rekap-absensi.route'
+import rekap_absensi_route from './model/rekap-absensi/rekap-absensi.route'
 import check_db_route from './dev/check_db/check_db.route'
 import reset_db_route from "./dev/reset_db/reset_db.route"
 
@@ -62,7 +62,6 @@ app.use('/guru/auth', guru_route)
 
 //for guru bk
 app.use('/guru-bk/auth', guru_bk_route)
-app.use('/guru-bk', guru_bk_rekap_absensi_route)
 
 //for wali kelas
 app.use('/wali-kelas/auth', wali_kelas_route)
@@ -78,6 +77,9 @@ app.use('/kelas/absensi', qr_generate_token_route) // for generate QR token
 app.use('/siswa/auth', siswa_route)
 app.use('/siswa/absensi', siswa_absensi_route) // siswa scan QR code here
 app.use('/siswa', siswa_profile_route)
+
+//for rekap-absnesi
+app.use('/rekap-absensi', rekap_absensi_route)
 
 //for development
 //check model
