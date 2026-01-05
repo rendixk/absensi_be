@@ -1,7 +1,7 @@
 import cron from "node-cron"
 import chalk from "chalk"
 import { prisma } from "../prisma"
-import { generate_rekap_absensi_service } from "../../model/rekap-absensi/rekap-absensi.service"
+import { rekap_absensi_service } from "../../model/rekap-absensi/rekap-absensi.service"
 
 export const start_rekap_absensi_scheduler = () => {
     cron.schedule('0 1 2 * *', async () => {
@@ -14,7 +14,7 @@ export const start_rekap_absensi_scheduler = () => {
 
         for (const kelas of all_kelas) {
             try {
-                await generate_rekap_absensi_service(kelas.id, minggu, bulan, tahun)
+                await rekap_absensi_service(kelas.id, minggu, bulan, tahun)
                 console.log(chalk.greenBright(`[CRON] Success rekap for kelas ${kelas.id}`), kelas.id)
             } 
             catch (error) {
