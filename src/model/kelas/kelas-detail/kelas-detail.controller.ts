@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express"
 import type { AuthRequest } from "../../../middleware/auth.middleware"
-import { detail_kelas_service } from "./kelas-detail.service"
+import { detail_kelas_service, rekap_presensi_service } from "./kelas-detail.service"
 import ErrorOutput from "../../../utils/errorOutput"
 import chalk from "chalk"
 
@@ -27,6 +27,34 @@ export const detail_kelas_controller = async (req: AuthRequest, res: Response, n
             data: detail_kelas
         })
     }
+    catch (error) {
+        next(error)
+    }
+}
+
+export const rekap_presensi_controller = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        if(!req.user) {
+            console.error(chalk.redBright("[Error] Missing authentication"))
+            throw new ErrorOutput("Authentication data missing.", 400)
+        }
+
+        const kelas_id = req.user.id
+
+        if(!kelas_id) {
+            console.error(chalk.redBright("[Error] Missing kelas authentication"))
+            throw new ErrorOutput("kelas_id parameter is required.", 400)
+        }
+
+        const rekap_presensi = await rekap_presensi_service(kelas_id)
+        console.log(chalk.greenBright(`[Success] Rekap presensi for Kelas ${kelas_id} retrieved by Staf ${req.user.id}`))
+
+        res.status(200).json({
+            succes: true,
+            message: "Rekap presensi retrieved successfully.",
+            data: rekap_presensi
+        })
+    } 
     catch (error) {
         next(error)
     }

@@ -14,3 +14,15 @@ export const detail_kelas_repo = (user_id: number) => {
         }
     })
 }
+
+export const rekap_presensi_repo = (kelas_id: number) => {
+    return prisma.absensi.findMany({
+        where: { kelas_id },
+        select: { 
+            siswa: {
+                select: { nama_lengkap: true }
+            },
+            status: true
+        }
+    })
+}
