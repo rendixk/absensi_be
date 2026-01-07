@@ -7,7 +7,7 @@ import type { SiswaAuthRequest } from "../middleware/siswa-auth.middleware"
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const dir = 'public/upload/siswa_pfp';
+        const dir = 'public/image/siswa_pfp';
         
         // Check if directory exists, if not, create it
         if (!fs.existsSync(dir)) {
@@ -18,27 +18,22 @@ const storage = multer.diskStorage({
         cb(null, dir);
     },
     filename: (req, file, cb) => {
-        const auth_req = req as SiswaAuthRequest
-        const user_id = auth_req.user?.id
-
-        if(!user_id) {
-            console.log(chalk.redBright("[Multer Config: Siswa PFP] Authentication failed: user id is missing"))
-            return cb(new ErrorOutput("Authentication required: User ID missing.", 401), '')
-        }
+        const user = (req as SiswaAuthRequest).user
 
         const ext = path.extname(file.originalname)
         const unique_suffix = Date.now() + "-" + Math.round(Math.random() * 1E9)
-        const file_name = `siswa-${user_id}-${unique_suffix}${ext}`
+        const file_name = `siswa-${user}-${unique_suffix}${ext}`
         cb(null, file_name)
     }
 })
 
 const file_filter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg") {
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
+    if (allowedTypes.includes(file.mimetype)) {
         cb(null, true)
     } 
     else {
-        console.log(chalk.redBright("[Multer Config: Siswa PFP] Unsupported file type. Only JPEG, JPG, and PNG are allowed"))
+        console.log(chalk.redBright(`[Multer Config] Rejected file type: ${file.mimetype}`))
         cb(new ErrorOutput("Unsupported file type. Only JPEG, JPG, and PNG are allowed", 400))
     }
 }

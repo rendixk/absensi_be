@@ -15,7 +15,6 @@ export class SiswaProfileService {
             console.log(chalk.redBright(`[Backend Service] Siswa data with ID: ${siswa_id} not found.`))
             throw new ErrorOutput(`Siswa data with ID: ${siswa_id} not found.`, 404)
         }
-        console.log(chalk.greenBright(`[Backend Service] Successfully fetched Siswa data by id: ${siswa_id}`), data_siswa)
         return data_siswa
     }
 

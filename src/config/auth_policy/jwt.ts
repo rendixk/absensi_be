@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import ErrorOutput from '../../utils/errorOutput';
-
+import chalk from 'chalk';
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET
 if(!JWT_SECRET_KEY){
@@ -15,7 +15,7 @@ export const generate_token = (payload: object) => {
         console.log("jwt token is not defined in environment variables")
         throw new ErrorOutput("jwt token is not defined in environment variables", 401)
     }
-    console.log("Generating JWT token...")
+    console.log(chalk.cyanBright("Generating JWT token..."))
     return jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRES_IN })
 }
 
@@ -23,6 +23,6 @@ export const verify_token = (token: string) => {
     if (!JWT_SECRET_KEY) {
         throw new ErrorOutput("Cannot verify token: token is undefined.", 401);
     }
-    console.log("Verifying token...")
+    console.log(chalk.cyanBright("Verifying token..."))
     return jwt.verify(token, JWT_SECRET_KEY)
 }

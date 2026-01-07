@@ -25,6 +25,7 @@ export const siswa_auth_middleware = (req: SiswaAuthRequest, res: Response, next
 
     try {
         const decoded = verify_token(token) as { id: number, role: Role, kelas_id: number }
+        console.log(chalk.cyan("[Middleware] Decoded Token:"), decoded)
 
         req.user = {
             id: decoded.id,
