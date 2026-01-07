@@ -13,9 +13,9 @@ interface SiswaProfile {
 }
 
 export class SiswaProfileController {
-    private SiswaProfileService: SiswaProfileService
+    private siswaProfileService: SiswaProfileService
     constructor() {
-        this.SiswaProfileService = new SiswaProfileService()
+        this.siswaProfileService = new SiswaProfileService()
     }
 
     public SiswaProfile = async (req: SiswaAuthRequest, res: Response, next: NextFunction) => {
@@ -30,7 +30,7 @@ export class SiswaProfileController {
             }
             const siswa_id = req.user.id
 
-            const data_siswa = await this.SiswaProfileService.findProfileSIswaId(siswa_id)
+            const data_siswa = await this.siswaProfileService.findProfileSIswaId(siswa_id)
             console.log(chalk.greenBright("[Backend Controller] Authorized siswa. Received request to get Siswa profile:"), data_siswa)
             res.status(200).json({
                 message: `Received request to get Siswa data by ID: ${siswa_id}`,
@@ -44,12 +44,14 @@ export class SiswaProfileController {
 
     public editSiswaProfileController = async (req: SiswaAuthRequest, res: Response, next: NextFunction) => {
         try {
+            console.log(chalk.blueBright("[Controller] Checking user role:"), req.user?.role)
+
             if(!req.user) {
                 console.log(chalk.redBright("Unauthorized: No user information found in request."))
                 throw new ErrorOutput("Unauthorized", 401)
             }
             if(req.user.role !== "siswa") {
-                console.log(chalk.yellowBright("[Backend Controller] Forbidden: Only siswa can access this."))
+                console.log(chalk.yellowBright(`[Backend Controller] Forbidden: Role is ${req.user.role}`))
                 throw new ErrorOutput("Forbidden: Only siswa can access this.", 403)
             }
             const data_siswa: SiswaProfile = req.body
@@ -65,7 +67,7 @@ export class SiswaProfileController {
                 delete (data_siswa as any).avatar
             }
 
-            const siswa_profile_update = await this.SiswaProfileService.siswaProfileEdit(siswa_id, data_siswa)
+            const siswa_profile_update = await this.siswaProfileService.siswaProfileEdit(siswa_id, data_siswa)
             console.log(chalk.greenBright("Siswa profile edited successfully"), siswa_profile_update)
             res.status(201).json({
                 message: "Siswa profile updated succeessfully",
