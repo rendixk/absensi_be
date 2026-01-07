@@ -1,22 +1,34 @@
-import { cleanup_forgotten_clock_out } from "../attendance-cleanup"
+// import { cleanup_forgotten_clock_out } from "../attendance-cleanup"
 import cron from "node-cron"
 import chalk from "chalk"
+import { prisma } from "../prisma"
 
 export const start_trace_forgotten_clock_out_scheduler = () => {
-    const CRON_SCHEDULE = '59 23 * * *'
-
-    cron.schedule(CRON_SCHEDULE, async () => {
+    cron.schedule("0 16 * * *", async () => {
         try {
-            console.log(chalk.yellowBright("[Schedular] Starting Daily Attendance Cleanup Job"))
-            await cleanup_forgotten_clock_out()
-            console.log(chalk.greenBright("[Schedular] Daily Attendance Cleanup Job Finished"))
-        } 
-        catch (error: any) {
-            console.log(chalk.redBright("CRON JOB failed"), error)   
-        }
-    }, {
-        timezone: "Asia/Jakarta"
-    })
+            console.log(chalk.yellowBright("[Scheduler] Closing attendance for today..."))
 
-    console.log(chalk.greenBright(`[Scheduler] Cron Job scheduled to run daily at 23:59 WIB.`))
+            const start_date = new Date()
+            start_date.setHours(0, 0, 0, 0)
+
+            const end_date = new Date()
+            end_date.setHours(23, 59, 59, 999)
+
+            await prisma.absensi.updateMany({
+                where: {
+                    tanggal: { gte: start_date, lte: end_date },
+                    status: 'hadir',
+                    clock_out: null,
+                    clock_in: { not: null }
+                },
+                data: {
+                    status: 'missing'
+                }
+            })
+            console.log(chalk.greenBright("[Scheduler] Attendance closed for today."))
+        }
+        catch (error) {
+            console.error(chalk.redBright("[Scheduler] CRON Error:"), error)
+        }
+    }, { timezone: "Asia/Jakarta" })
 }

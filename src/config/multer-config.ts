@@ -1,4 +1,5 @@
 import multer from "multer"
+import fs from "fs"
 import ErrorOutput from "../utils/errorOutput"
 import chalk from "chalk"
 import path from "path"
@@ -6,7 +7,15 @@ import type { SiswaAuthRequest } from "../middleware/siswa-auth.middleware"
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/upload/siswa_pfp')
+        const dir = 'public/upload/siswa_pfp';
+        
+        // Check if directory exists, if not, create it
+        if (!fs.existsSync(dir)) {
+            console.log(chalk.yellow(`[Multer Config] Creating directory: ${dir}`));
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        
+        cb(null, dir);
     },
     filename: (req, file, cb) => {
         const auth_req = req as SiswaAuthRequest
