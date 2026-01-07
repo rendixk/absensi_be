@@ -13,7 +13,7 @@ export const find_all_absensi_today_by_kelas_repo = (kelas_id: number) => {
         },
         include: {
             siswa: {
-                select: { nama_lengkap: true, nis: true }
+                select: { nama_lengkap: true, nis: true, avatar: true, nomor_wali: true }
             }
         },
         orderBy: {
