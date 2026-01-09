@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 })
 
 //edit siswa profile
-app.use('/upload/profile', express.static(path.join(project_root, "public/upload/siswa_pfp")))
+app.use('/uploads', express.static(path.join(project_root, "public/upload/siswa_pfp")))
 
 //routing path
 //for admin

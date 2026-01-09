@@ -24,12 +24,13 @@ export class SiswaProfileController {
                 console.log(chalk.redBright("Unauthorized: No user information found in request."))
                 throw new ErrorOutput("Unauthorized", 401)
             }
-            // if(req.user.role !== "siswa") {
+            const siswa_id = req.user.id
+            // const role = req.user?.role
+            
+            // if(role !== "siswa") {
             //     console.log(chalk.yellowBright("[Backend Controller] Forbidden: Only siswa can access this."))
             //     throw new ErrorOutput("Forbidden: Only siswa can access this.", 403)
             // }
-            const siswa_id = req.user.id
-
             const data_siswa = await this.siswaProfileService.findProfileSIswaId(siswa_id)
             console.log(chalk.greenBright("[Backend Controller] Authorized siswa. Received request to get Siswa profile:"), data_siswa)
             res.status(200).json({
@@ -50,10 +51,10 @@ export class SiswaProfileController {
                 console.log(chalk.redBright("Unauthorized: No user information found in request."))
                 throw new ErrorOutput("Unauthorized", 401)
             }
-            if(req.user.role !== "siswa") {
-                console.log(chalk.yellowBright(`[Backend Controller] Forbidden: Role is ${req.user.role}`))
-                throw new ErrorOutput("Forbidden: Only siswa can access this.", 403)
-            }
+            // if(req.user.role !== "siswa") {
+            //     console.log(chalk.yellowBright(`[Backend Controller] Forbidden: Role is ${req.user.role}`))
+            //     throw new ErrorOutput("Forbidden: Only siswa can access this.", 403)
+            // }
             const data_siswa: SiswaProfile = req.body
             const siswa_id = req.user.id
 
