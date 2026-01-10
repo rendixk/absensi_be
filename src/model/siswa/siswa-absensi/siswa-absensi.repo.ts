@@ -6,7 +6,7 @@ import { Status_Kehadiran } from "../../../generated"
 const now = new Date()
 const time_data = {
     minggu: Math.ceil(now.getDate()/7),
-    bulan: now.getMonth(),
+    bulan: now.getMonth() + 1,
     tahun: now.getFullYear()
 }
 
