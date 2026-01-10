@@ -1,24 +1,20 @@
 import { prisma } from "./prisma"
-import { Status_Kehadiran } from "../generated"
+import cron from "node-cron"
 import chalk from "chalk"
 
-export const cleanup_forgotten_clock_out = async () => {
-    const start_of_today = new Date()
-    start_of_today.setHours(0, 0, 0, 0)
-
-    const result = await prisma.absensi.updateMany({
-        where: {
-            tanggal: {
-                gte: start_of_today
+export const start_attendance_cleanup = async () => {
+    cron.schedule('0 16 * * *', async () => {
+        console.log(chalk.yellow("[Cron] Running 4 PM Clock-out Enforcement..."));
+        
+        await prisma.absensi.updateMany({
+            where: {
+                clock_in: { not: null },
+                clock_out: null,
+                status: 'hadir'
             },
-            status: Status_Kehadiran.hadir,
-            clock_in: { not: null },
-            clock_out: null
-        },
-        data: {
-            status: Status_Kehadiran.missing
-        }
-    })
+            data: { status: 'missing' }
+        });
 
-    console.log(chalk.blueBright(`[Cleanup] Successfully marked ${result.count} records as MISSING`))
+        console.log(chalk.green("[Cron] Daily cleanup finished."))
+    }, { timezone: "Asia/Jakarta" })
 }

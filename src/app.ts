@@ -6,13 +6,14 @@ import { error_middleware } from './middleware/error.middleware'
 import { start_trace_forgotten_clock_out_scheduler } from './config/cron/cron-scheduler-clock-out'
 import { start_rekap_absensi_scheduler } from './config/cron/cron-rekap-scheduler'
 import { fileURLToPath } from 'url'
-import absensi_route from './model/absensi/absensi.route'
+import absensi_route from './model/absensi/route/rekap.route'
+// import rekap_absensi_route from './model/absensi/rekap-absensi/rekap.route'
 import admin_route from './model/admin/admin_auth/admin.auth.route'
 import admin_manage_model_route from './model/admin/manage-model/routes/admin.manage.route'
 import guru_route from './model/guru/guru_auth/guru.auth.route'
 import wali_kelas_route from "./model/wali_kelas/wali_kelas_auth/wali_kelas.auth.route"
 import wali_kelas_manage_kelas from "./model/wali_kelas/wali-kelas-manage-kelas/wali-kelas-manage-kelas.route"
-import wali_kelas_edit_absensi from "./model/wali_kelas/wali-kelas-absensi-manage/wali-kelas-edit-status.route"
+// import edit_absensi_status from "./model/absensi/absensi-manage/edit-presensi-status.route"
 import guru_bk_route from './model/guru_bk/guru_bk_auth/guru_bk.auth.route'
 import kelas_route from './model/kelas/kelas_auth/kelas.auth.route'
 import kelas_detail_route from "./model/kelas/kelas-detail/kelas-detail.route"
@@ -50,12 +51,12 @@ app.get('/', (req, res) => {
 app.use('/uploads', express.static(path.join(project_root, "public")))
 
 //routing path
+//for absensi
+app.use('/absensi', absensi_route)
+
 //for admin
 app.use('/admin/auth', admin_route)
 app.use('/admin/manage', admin_manage_model_route)
-
-//for absensi
-app.use('/absensi', absensi_route)
 
 //for guru
 app.use('/guru/auth', guru_route)
@@ -65,7 +66,6 @@ app.use('/guru-bk/auth', guru_bk_route)
 
 //for wali kelas
 app.use('/wali-kelas/auth', wali_kelas_route)
-app.use('/wali-kelas/absensi', wali_kelas_edit_absensi)
 app.use("/wali-kelas", wali_kelas_manage_kelas)
 
 //for kelas

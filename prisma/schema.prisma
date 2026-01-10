@@ -112,9 +112,15 @@ model absensi {
   clock_in         DateTime?
   clock_out        DateTime?
 
+  minggu           Int?
+  bulan            Int?
+  tahun            Int?
+
   //relasi
   siswa            siswa             @relation(fields: [siswa_id], references: [id])
   kelas            kelas             @relation(fields: [kelas_id], references: [id])
+
+  @@index([kelas_id, minggu, bulan, tahun])
 }
 
 model rekap_absensi {
@@ -123,19 +129,20 @@ model rekap_absensi {
   kelas_id   Int
   bulan      Int
   tahun      Int
-  minggu_ke  Int
+  minggu     Int
 
   total_hadir Int @default(0)
   total_sakit Int @default(0)
   total_izin  Int @default(0)
-  total_alpha Int @default(0)
+  total_alfa Int @default(0)
+  total_missing Int @default(0)
 
   //relasi
   surat_peringatan  surat_peringatan[]
   siswa   siswa     @relation(fields: [siswa_id], references: [id])
   kelas   kelas     @relation(fields: [kelas_id], references: [id])
 
-  @@unique([siswa_id, kelas_id, minggu_ke, bulan, tahun])
+  @@unique([siswa_id, kelas_id, minggu, bulan, tahun])
 }
 
 model guru_bk {

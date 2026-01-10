@@ -32,7 +32,7 @@ export const detail_kelas_controller = async (req: AuthRequest, res: Response, n
     }
 }
 
-export const rekap_presensi_controller = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const presensi_controller = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         if(!req.user) {
             console.error(chalk.redBright("[Error] Missing authentication"))
@@ -47,7 +47,7 @@ export const rekap_presensi_controller = async (req: AuthRequest, res: Response,
         }
 
         const rekap_presensi = await rekap_presensi_service(kelas_id)
-        console.log(chalk.greenBright(`[Success] Rekap presensi for Kelas ${kelas_id} retrieved by Staf ${req.user.id}`))
+        console.log(chalk.greenBright(`[Success] Rekap presensi for Kelas ${kelas_id} retrieved: `), rekap_presensi)
 
         res.status(200).json({
             succes: true,
@@ -59,3 +59,28 @@ export const rekap_presensi_controller = async (req: AuthRequest, res: Response,
         next(error)
     }
 }
+
+// export const rekap_presensi_controller = async (req: AuthRequest, res: Response, next: NextFunction) => {
+//     try {
+//         if(!req.user) {
+//             console.error(chalk.redBright("[Error] Missing authentication"))
+//             throw new ErrorOutput("Authentication data missing.", 400)
+//         }
+
+//         const kelas_id = req.user.id
+
+//         console.log(chalk.cyanBright(`[Backend Controler] Fetching rekap presensi for Kelas ID: ${kelas_id}...`))
+    
+//         const result = await rekap_presensi_service(kelas_id)
+
+//         res.status(200).json({
+//             success: true,
+//             message: "presensi rekap absensi kelas fetched successfully.",
+//             data: result
+//         })
+
+//     }
+//     catch (error) {
+//         next(error)    
+//     }
+// }
