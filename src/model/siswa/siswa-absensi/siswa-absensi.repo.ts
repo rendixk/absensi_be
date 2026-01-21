@@ -3,11 +3,14 @@ import type { AbsensiData } from "./interface/siswa-absensi.interface"
 import { Status_Kehadiran } from "../../../generated"
 
 // Function for create new absensi record (only for clock-in)
-const now = new Date()
-const time_data = {
-    minggu: Math.ceil(now.getDate()/7),
-    bulan: now.getMonth() + 1,
-    tahun: now.getFullYear()
+const get_current_time_metadata = () => {
+    const now = new Date()
+    return {
+        tanggal: now,
+        minggu: Math.ceil(now.getDate() / 7),
+        bulan: now.getMonth() + 1,
+        tahun: now.getFullYear()
+    }
 }
 
 export const create_absensi_record = (data: AbsensiData) => {
@@ -17,8 +20,8 @@ export const create_absensi_record = (data: AbsensiData) => {
             siswa_id: data.siswa_id,
             kelas_id: data.kelas_id,
             status: Status_Kehadiran.hadir, // Explicitly 'hadir' when clock-in successful
-            clock_in: data.clock_in,
-            ...time_data
+            clock_in: new Date(),
+            ...get_current_time_metadata()
         }
     })
 }
@@ -28,13 +31,17 @@ export const find_absensi_today = (siswa_id: number, kelas_id: number) => {
     const start_of_day = new Date()
     start_of_day.setHours(0, 0, 0, 0)
 
+    const end_of_day = new Date();
+    end_of_day.setHours(23, 59, 59, 999)
+
     // Searching for record that created today
     return prisma.absensi.findFirst({
         where: {
-            siswa_id: siswa_id,
-            kelas_id: kelas_id,
+            siswa_id,
+            kelas_id,
             tanggal: {
-                gte: start_of_day
+                gte: start_of_day,
+                lte: end_of_day
             }
         }
     })
@@ -46,7 +53,6 @@ export const update_absensi_clock_out = (absensi_id: number, clock_out_time: Dat
         where: { id: absensi_id },
         data: {
             clock_out: clock_out_time,
-            ...time_data
             // Status not changed; still 'hadir' if clock-out successful
         }
     })

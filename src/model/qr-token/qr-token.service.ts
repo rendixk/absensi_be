@@ -21,10 +21,6 @@ const generate_qr_token_service = async (
         console.log(chalk.redBright("Kelas not found"))
         throw new ErrorOutput("Kelas not found", 404)
     }
-    // if(data_kelas.guru_id !== guru_id) {
-    //     console.log(chalk.redBright(`Access denied: Guru ID ${guru_id} are not active guru in kelas_id ${kelas_id}`))
-    //     throw new ErrorOutput("You are not active guru in this kelas. please re-login to kelas.", 403)
-    // }
     if(staf_role === "wali_kelas") {
         if(data_kelas.wali_kelas_id !== staf_id) {
             console.log(chalk.redBright(`Access denied: Wali Kelas ID ${staf_id} is not the active Wali Kelas for kelas_id ${kelas_id}`))

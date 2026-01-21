@@ -14,21 +14,20 @@ export const start_trace_forgotten_clock_out_scheduler = () => {
             const end_date = new Date()
             end_date.setHours(23, 59, 59, 999)
 
-            await prisma.absensi.updateMany({
+            const result = await prisma.absensi.updateMany({
                 where: {
                     tanggal: { gte: start_date, lte: end_date },
                     status: 'hadir',
                     clock_out: null,
-                    clock_in: { not: null }
                 },
                 data: {
                     status: 'missing'
                 }
             })
-            console.log(chalk.greenBright("[Scheduler] Attendance closed for today."))
+            console.log(chalk.greenBright(`[CRON] Already 04:00 PM: ${result.count}. siswa signed as missing`))
         }
         catch (error) {
-            console.error(chalk.redBright("[Scheduler] CRON Error:"), error)
+            console.error(chalk.redBright("[CRON] Error:"), error)
         }
     }, { timezone: "Asia/Jakarta" })
 }

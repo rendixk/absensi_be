@@ -4,7 +4,7 @@ import { prisma } from "../prisma"
 import { generate_rekap_service } from "../../model/absensi/rekap-absensi/rekap.service"
 
 export const start_rekap_absensi_scheduler = () => {
-    cron.schedule('0 1 2 * *', async () => {
+    cron.schedule('0 16 * * *', async () => {
         const now = new Date()
         const minggu = Math.ceil(now.getDate()/7)
         const bulan = now.getMonth() + 1

@@ -3,8 +3,8 @@ import cors from "cors"
 import path from 'path'
 import { notFoundMiddleware } from './middleware/notFound.middleware'
 import { error_middleware } from './middleware/error.middleware'
-import { start_trace_forgotten_clock_out_scheduler } from './config/cron/cron-scheduler-clock-out'
 import { start_rekap_absensi_scheduler } from './config/cron/cron-rekap-scheduler'
+import { start_trace_forgotten_clock_out_scheduler } from './config/cron/cron-scheduler-clock-out'
 import { fileURLToPath } from 'url'
 import absensi_route from './model/absensi/route/rekap.route'
 // import rekap_absensi_route from './model/absensi/rekap-absensi/rekap.route'
@@ -24,6 +24,7 @@ import qr_generate_token_route from './model/qr-token/qr-token.route'
 // import rekap_absensi_route from './model/rekap-absensi/rekap-absensi.route'
 import check_db_route from './dev/check_db/check_db.route'
 import reset_db_route from "./dev/reset_db/reset_db.route"
+import chalk from 'chalk'
 
 export const app = express()
 
@@ -40,8 +41,9 @@ const project_root = path.resolve(__dirname, "..")
 app.use(express.json())
 app.use(cors(cors_option))
 
-start_trace_forgotten_clock_out_scheduler()
 start_rekap_absensi_scheduler()
+start_trace_forgotten_clock_out_scheduler()
+console.log(chalk.blueBright("[System] Attendance Schedulers are now active."))
 
 app.get('/', (req, res) => {
   res.send('Hello absensi project mobile based!')
