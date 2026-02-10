@@ -10,7 +10,7 @@ export const detail_kelas_repo = (user_id: number) => {
         },
         include: {
             wali_kelas: { omit: { password: true } },
-            siswa: { omit: { password: true } }
+            siswa: { omit: { password: true }, select: { absensi: { select: { status: true } } } }
         }
     })
 }
