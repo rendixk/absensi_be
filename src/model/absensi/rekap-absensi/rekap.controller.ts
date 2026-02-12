@@ -1,5 +1,4 @@
 import type { Request, Response, NextFunction } from "express"
-import { prisma } from "../../../config/prisma"
 import type { AuthRequest } from "../../../middleware/auth.middleware"
 import { generate_rekap_service } from "./rekap.service"
 import ErrorOutput from "../../../utils/errorOutput"
