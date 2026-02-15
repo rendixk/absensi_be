@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { prisma } from "../../../config/prisma"
 
-export const find_daily_attendance_log_repo = async (kelas_id: number, target_date: string) => {
+export const find_daily_attendance_log_repo = async (kelas_id: number, target_date?: string) => {
     const start_of_day = new Date(`${target_date}T00:00:00Z`);
     const end_of_day = new Date(`${target_date}T23:59:59Z`);
 

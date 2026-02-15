@@ -2,7 +2,7 @@ import { find_daily_attendance_log_repo } from "./rekap.repo"
 import { prisma } from "../../../config/prisma"
 import chalk from "chalk"
 
-export const rekap_presensi_service = async (kelas_id: number, target_date: string) => {
+export const rekap_presensi_service = async (kelas_id: number, target_date?: string) => {
     const students = await prisma.siswa.findMany({
         where: { kelas_id }, 
         select: { id: true, nama_lengkap: true, nis: true }
